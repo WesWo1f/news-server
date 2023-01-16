@@ -1,13 +1,17 @@
 const PORT = 8000
 const express = require('express')
-const cors = require('cors')
+const cors = require("cors")
 const axios = require("axios");
 require('dotenv').config()
 
 const app = express()
 const bodyParser = require('body-parser');
 //app.use(express.json())
-app.use(cors());
+//app.use(cors());
+app.use(
+  cors({
+    origin: "https://nameless-cliffs-00097.herokuapp.com/category"
+}))
 
 
 
@@ -38,7 +42,6 @@ app.post('/category', async (req,res) =>  {
         // }).catch(function (error) {
         //     console.error(error);
         // });
-        res.send('Hello World')
       console.log("category ran!!")
       //console.log("this is options: "+options)
   })
