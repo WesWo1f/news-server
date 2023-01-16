@@ -13,7 +13,7 @@ app.use(cors())
 
 app.post('/category', async (req,res) => {
   res.json({ name:'wes'})
-}
+});
 
 
 
