@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 //app.use(cors());
 app.use(
   cors({
-    origin: "https://nameless-cliffs-00097.herokuapp.com/category"
+    origin: "https://nameless-cliffs-00097.herokuapp.com"
 }))
 
 
