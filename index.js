@@ -9,10 +9,7 @@ const app = express()
 const bodyParser = require('body-parser');
 //app.use(express.json())
 //app.use(cors());
-app.use(
-  cors({
-    origin: "https://nameless-cliffs-00097.herokuapp.com"
-}))
+app.use(cors())
 
 
 
