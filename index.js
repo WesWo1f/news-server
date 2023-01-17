@@ -8,11 +8,10 @@ require('dotenv').config()
 const app = express()
 const bodyParser = require('body-parser');
 //app.use(express.json())
-//app.use(cors());
 app.use(cors())
 
 app.post('/category', async (req,res) => {
-  res.json({ name:'wes'})
+  res.json({ name:'wes',password:`${process.env.SECRET_KEY}`})
 });
 
 
