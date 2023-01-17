@@ -7,7 +7,7 @@ require('dotenv').config()
 
 const app = express()
 const bodyParser = require('body-parser');
-//app.use(express.json())
+app.use(express.json())
 app.use(cors())
 
 // app.post('/category', async (req,res) => {
@@ -37,7 +37,7 @@ app.post('/category', async (req,res) =>  {
       };
       axios.request(options).then(function (response) {
         res.json({name: "wes", theNews: response.data})
-          //console.log(response.data);
+          console.log(response.data);
       }).catch(function (error) {
           console.log("category ran!!")
           console.error(error);
@@ -45,16 +45,6 @@ app.post('/category', async (req,res) =>  {
       console.log("category ran!!")
       console.log("this is options: "+options)
   })
-
-
-
-
-
-
-
-
-
-
 
 // app.post('/category', async (req,res) =>  {
 //   const category =  req.body.category
