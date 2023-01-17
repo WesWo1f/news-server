@@ -85,8 +85,8 @@ app.post('/category', async (req,res) =>  {
     console.log("this is options: "+options)
     }
     else{
-      category = 'wolf'
-      console.log('searching for default wolf')
+      console.log("searching Default")
+      category ='wolf'
       const options = {
       method: 'GET',
       url: 'https://bing-news-search1.p.rapidapi.com/news/search',
@@ -111,7 +111,6 @@ app.post('/category', async (req,res) =>  {
     });
     console.log("category ran!!")
     console.log("this is options: "+options)
-    }
     }
 
   })
