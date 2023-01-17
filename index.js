@@ -22,7 +22,7 @@ app.post('/category', async (req,res) =>  {
       console.log(category)
         const options = {
         method: 'GET',
-        url: 'https://bing-news-search1.p.rapidapi.com/news/search',
+        url: 'http://bing-news-search1.p.rapidapi.com/news/search',
         params: {
         q: `${category}`,
         count: '100',
