@@ -10,59 +10,57 @@ const bodyParser = require('body-parser');
 //app.use(express.json())
 app.use(cors())
 
-app.get('/', async (req,res) => {
-  const options = {
-    method: 'GET',
-    url: 'https://bing-news-search1.p.rapidapi.com/news',
-    params: {safeSearch: 'Off', textFormat: 'Raw'},
-    headers: {
-      'X-BingApis-SDK': 'true',
-      'X-RapidAPI-Key': process.env.THE_KEY,
-      'X-RapidAPI-Host': process.env.THE_HOST
-    }
-  };
+// app.get('/', async (req,res) => {
+//   const options = {
+//     method: 'GET',
+//     url: 'https://bing-news-search1.p.rapidapi.com/news',
+//     params: {safeSearch: 'Off', textFormat: 'Raw'},
+//     headers: {
+//       'X-BingApis-SDK': 'true',
+//       'X-RapidAPI-Key': process.env.THE_KEY,
+//       'X-RapidAPI-Host': process.env.THE_HOST
+//     }
+//   };
   
-  axios.request(options).then(function (response) {
-    console.log(response.data);
-    res.json({ name:'wes', dataStuff: response.data})
-  }).catch(function (error) {
-    res.send(error)
-    console.error(error);
-    res.json({ name:'wes',})
-  });
+//   axios.request(options).then(function (response) {
+//     res.json({ name:'wes', dataStuff: response.data})
+//   }).catch(function (error) {
+//     console.error(error);
+//     res.json({ name:'wes',})
+//   });
 
 
 
 
-});
+// });
 
 
 
 
 
-app.post('/', async (req,res) => {
-  const options = {
-    method: 'GET',
-    url: 'https://bing-news-search1.p.rapidapi.com/news',
-    params: {safeSearch: 'Off', textFormat: 'Raw'},
-    headers: {
-      'X-BingApis-SDK': 'true',
-      'X-RapidAPI-Key': process.env.THE_KEY,
-      'X-RapidAPI-Host': process.env.THE_HOST
-    }
-  };
+// app.post('/', async (req,res) => {
+//   const options = {
+//     method: 'GET',
+//     url: 'https://bing-news-search1.p.rapidapi.com/news',
+//     params: {safeSearch: 'Off', textFormat: 'Raw'},
+//     headers: {
+//       'X-BingApis-SDK': 'true',
+//       'X-RapidAPI-Key': process.env.THE_KEY,
+//       'X-RapidAPI-Host': process.env.THE_HOST
+//     }
+//   };
   
-  axios.request(options).then(function (response) {
-    console.log(response.data);
-    res.json({ name:'wes', dataStuff: response.data})
-  }).catch(function (error) {
-    console.error(error);
-    res.json({ name:'wes',})
-  });
+//   axios.request(options).then(function (response) {
+//     console.log(response.data);
+//     res.json({ name:'wes', dataStuff: response.data})
+//   }).catch(function (error) {
+//     console.error(error);
+//     res.json({ name:'wes',})
+//   });
 
 
 
-});
+// });
 
 
 
