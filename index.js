@@ -23,10 +23,11 @@ app.post('/', async (req,res) => {
   };
   
   axios.request(options).then(function (response) {
-
+    res.send(response.data)
     console.log(response.data);
     res.json({ name:'wes',dataStuff: response.data})
   }).catch(function (error) {
+    res.send(error)
     console.error(error);
     res.json({ name:'wes',})
   });
