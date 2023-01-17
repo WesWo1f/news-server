@@ -10,19 +10,19 @@ const bodyParser = require('body-parser');
 //app.use(express.json())
 app.use(cors())
 
-app.get('/', async (req,res) => {
+// app.get('/', async (req,res) => {
 
-  async function getUser() {
-    try {
-      const response = await axios.get('/user?ID=12345');
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+//   async function getUser() {
+//     try {
+//       const response = await axios.get('/user?ID=12345');
+//       console.log(response);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   }
 
 
-});
+// });
 
 
 
@@ -57,31 +57,35 @@ app.get('/', async (req,res) => {
 app.post('/category', async (req,res) =>  {
     console.log("category ran!!")
     let category =  req.body.category
+    if (typeof(category) !== "undefined"){
       console.log(category)
-        const options = {
-        method: 'GET',
-        url: 'https://bing-news-search1.p.rapidapi.com/news/search',
-        params: {
-        q: `${category}`,
-        count: '100',
-        freshness: 'Day', 
-        textFormat: 'Raw', 
-        safeSearch: 'Off'},
-        headers: {
-          'X-BingApis-SDK': 'true',
-          'X-RapidAPI-Key': process.env.THE_KEY,
-          'X-RapidAPI-Host': process.env.THE_HOST
-        }
-      };
-      axios.request(options).then(function (response) {
-        res.json({name: "wes", theNews: response.data})
-          console.log(response.data);
-      }).catch(function (error) {
-          console.log("category ran!!")
-          console.error(error);
-      });
-      console.log("category ran!!")
-      console.log("this is options: "+options)
+      const options = {
+      method: 'GET',
+      url: 'https://bing-news-search1.p.rapidapi.com/news/search',
+      params: {
+      q: `${category}`,
+      count: '100',
+      freshness: 'Day', 
+      textFormat: 'Raw', 
+      safeSearch: 'Off'},
+      headers: {
+        'X-BingApis-SDK': 'true',
+        'X-RapidAPI-Key': process.env.THE_KEY,
+        'X-RapidAPI-Host': process.env.THE_HOST
+      }
+    };
+    axios.request(options).then(function (response) {
+      res.json({name: "wes", theNews: response.data})
+        console.log(response.data);
+    }).catch(function (error) {
+        console.log("category ran!!")
+        console.error(error);
+    });
+    console.log("category ran!!")
+    console.log("this is options: "+options)
+
+    }
+
   })
 
 // app.post('/category', async (req,res) =>  {
