@@ -11,7 +11,7 @@ app.use(express.json())
 app.use(cors())
 
 app.get('/', async (req,res) => {
-  res.send(response.data)
+  res.send('hey')
 
 
 
