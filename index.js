@@ -11,7 +11,10 @@ app.use(express.json())
 app.use(cors())
 app.use(bodyParser.json());
 
-
+const cors = require('cors');
+// app.use(cors({
+//     origin: 'https://www.section.io'
+// }));
 
 
 // app.post('/category', async (req,res) =>  {
@@ -55,7 +58,7 @@ app.use(bodyParser.json());
 app.post('/category', async (req,res) => {
   const data = { username: 'example' };
 
-  fetch('https://example.com/profile', {
+  fetch('https://bing-news-search1.p.rapidapi.com/news', {
     method: 'GET', // or 'PUT'
     headers: {
       'X-BingApis-SDK': 'true',
