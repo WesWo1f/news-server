@@ -63,11 +63,10 @@ app.post('/category', async (req,res) => {
       'X-RapidAPI-Host': process.env.THE_HOST
     },
   })
-    .then((response) => response.json())
-    .then((result) => {
-      console.log('Success:', result);
-      res.send(result)
-    })
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+    
+  
     .catch((error) => {
       console.error('Error:', error);
     });
