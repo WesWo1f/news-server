@@ -21,10 +21,10 @@ app.use(bodyParser.json());
 
 app.post('/category', async (req,res) => {
   console.log(req.body)
-  res.send({name:'wes', thisIsBody: req.body} )
   fetch('https://inshorts.deta.dev/news?category=automobile')
   .then((response) => response.json())
   .then((result) => {
+    res.send({name:'wes', fetchResult: result} )
     console.log('Success:', result);
   })
 })
