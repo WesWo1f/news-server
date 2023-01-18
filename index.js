@@ -64,7 +64,6 @@ app.post('/category', async (req,res) => {
     },
   })
     .then((response) => response.json())
-    console.log(response)
     .then((result) => {
       console.log('Success:', result);
       res.send(result)
