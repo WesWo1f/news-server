@@ -11,7 +11,6 @@ app.use(express.json())
 app.use(cors())
 app.use(bodyParser.json());
 
-const cors = require('cors');
 // app.use(cors({
 //     origin: 'https://www.section.io'
 // }));
