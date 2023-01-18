@@ -11,6 +11,7 @@ app.use(express.json())
 app.use(cors())
 app.use(bodyParser.json());
 
+/*
 app.get('/', async (req,res) => {
 
   const options = {
@@ -24,18 +25,19 @@ app.get('/', async (req,res) => {
     }
   };
   axios.request(options).then(function (response) {
-    res.json({name: "wes", theNews: response.data})
-    console.log(response.data);
+    res.json({name: "no error", theNews: response.data})
+    //console.log(response.data);
     //console.log(response.data);
     //res.json({ name:'wes', dataStuff: response.data})
   }).catch(function (error) {
-    console.error(error);
-    res.json({ name:'wes',})
+    //console.error(error);
+    res.json({ name:'error', })
   });
 
 
 });
 
+/*
 
 
 
