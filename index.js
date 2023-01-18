@@ -29,6 +29,29 @@ app.use(bodyParser.json());
 //   })
 // })
 
+// app.post('/category', async (req,res) => {
+//   console.log("this was sent from frontend"+req.body)
+//   const options = {
+//     method: 'GET',
+//     url: 'https://bing-news-search1.p.rapidapi.com/news',
+//     params: {safeSearch: 'Off', textFormat: 'Raw'},
+//     headers: {
+//       'X-BingApis-SDK': 'true',
+//       'X-RapidAPI-Key': process.env.THE_KEY,
+//       'X-RapidAPI-Host': process.env.THE_HOST
+//     }
+//   };
+
+//   axios.request(options).then(function (response) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.send({fetchResult: response.data} )
+//   	console.log(response.data);
+//   }).catch(function (error) {
+//   	console.error(error);
+//   });
+// })
+
+//*********************************** */
 app.post('/category', async (req,res) => {
   console.log("this was sent from frontend"+req.body)
   const options = {
@@ -43,16 +66,13 @@ app.post('/category', async (req,res) => {
   };
 
   axios.request(options).then(function (response) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.send({fetchResult: response.data} )
-  	console.log(response.data);
+    console.log(response)
+  	console.log("this is the response"+response);
   }).catch(function (error) {
   	console.error(error);
   });
-
 })
-
-
+//********************************** */
 
 
 
