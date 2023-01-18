@@ -43,6 +43,7 @@ app.post('/category', async (req,res) => {
   };
 
   axios.request(options).then(function (response) {
+    res.header("Access-Control-Allow-Origin", "*");
     res.send({fetchResult: response.data} )
   	console.log(response.data);
   }).catch(function (error) {
