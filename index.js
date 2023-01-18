@@ -53,7 +53,7 @@ app.use(bodyParser.json());
 
 //*********************************** */
 app.post('/category', async (req,res) => {
-  //const data = { username: 'example' };
+  const data = { username: 'example' };
 
   fetch('https://example.com/profile', {
     method: 'GET', // or 'PUT'
@@ -64,13 +64,15 @@ app.post('/category', async (req,res) => {
     },
   })
     .then((response) => response.json())
-    .then((data) => {
-      console.log('Success:', data);
+    console.log(response)
+    .then((result) => {
+      console.log('Success:', result);
+      res.send(result)
     })
     .catch((error) => {
       console.error('Error:', error);
     });
-    res.send("hey")
+    res.send({nothing: "nope"})
 })
 //********************************** */
 
