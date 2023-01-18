@@ -53,24 +53,24 @@ app.use(bodyParser.json());
 
 //*********************************** */
 app.post('/category', async (req,res) => {
-  console.log("this was sent from frontend"+req.body)
-  const options = {
-    method: 'GET',
-    url: 'https://bing-news-search1.p.rapidapi.com/news',
-    params: {safeSearch: 'Off', textFormat: 'Raw'},
+  //const data = { username: 'example' };
+
+  fetch('https://example.com/profile', {
+    method: 'GET', // or 'PUT'
     headers: {
       'X-BingApis-SDK': 'true',
       'X-RapidAPI-Key': process.env.THE_KEY,
       'X-RapidAPI-Host': process.env.THE_HOST
-    }
-  };
-
-  axios.request(options).then(function (response) {
-    console.log(response)
-  	console.log("this is the response"+response);
-  }).catch(function (error) {
-  	console.error(error);
-  });
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+    res.send("hey")
 })
 //********************************** */
 
