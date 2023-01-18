@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 
 app.post('/category', async (req,res) =>  {
   console.log(req.body)
-  res.send(req.body)
+  res.send({name:'wes', thisIsBody: req.body} )
 
 
  })
