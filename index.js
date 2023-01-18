@@ -11,6 +11,29 @@ app.use(express.json())
 app.use(cors())
 app.use(bodyParser.json());
 
+
+
+
+app.post('/category', async (req,res) =>  {
+  console.log(req.body)
+  res.send(req.body)
+
+
+ })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 app.get('/', async (req,res) => {
 
@@ -37,7 +60,21 @@ app.get('/', async (req,res) => {
 
 });
 
-/*
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -224,10 +261,10 @@ app.get('/', async (req,res) => {
 
 
 
-app.listen(port,() => {
-  console.log(`Server is running on port ${port}`)
-})
-//app.listen(8000, () => console.log(`Server is running on port ${PORT}`))
+// app.listen(port,() => {
+//   console.log(`Server is running on port ${port}`)
+// })
+app.listen(8000, () => console.log(`Server is running on port ${PORT}`))
 
 
 
