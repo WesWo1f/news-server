@@ -1,5 +1,5 @@
 //const PORT = 8000
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 8000;
 const express = require('express')
 const cors = require("cors")
 const axios = require("axios");
@@ -56,7 +56,7 @@ app.use(bodyParser.json());
 //*********************************** */
 app.post('/category', async (req,res) => {
   const data = { username: 'example' };
-
+  console.log("this ran")
   fetch('https://bing-news-search1.p.rapidapi.com/news', {
     method: 'GET', // or 'PUT'
     headers: {
@@ -84,7 +84,6 @@ app.post('/category', async (req,res) => {
 
 
 
-/*
 app.get('/', async (req,res) => {
 
   const options = {
@@ -110,7 +109,6 @@ app.get('/', async (req,res) => {
 
 });
 
-*/
 
 
 
