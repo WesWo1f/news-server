@@ -57,8 +57,9 @@ app.use(bodyParser.json());
 app.post('/category', async (req,res) => {
   const data = { username: 'example' };
   console.log("this ran")
-  const dataFetched = await fetch('https://bing-news-search1.p.rapidapi.com/news', {
+  const dataFetched = await fetch('https://bing-news-search1.p.rapidapi.com/news',  {
     method: 'GET', // or 'PUT'
+    mode: 'no-cors',
     headers: {
       'X-BingApis-SDK': 'true',
       'X-RapidAPI-Key': process.env.THE_KEY,
