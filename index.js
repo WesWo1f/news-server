@@ -66,8 +66,10 @@ app.post('/category', async (req,res) => {
     },
   })
   .then((response) => response.json())
-  .then((data) => res.send(data))
-    //res.send(data)
+  .then((data) => {
+    console.log('Success:', data);
+    res.send({nothing: data})
+  })
   
     .catch((error) => {
       console.error('Error:', error);
