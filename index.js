@@ -57,7 +57,7 @@ app.use(bodyParser.json());
 app.post('/category', async (req,res) => {
   const data = { username: 'example' };
   console.log("this ran")
-  fetch('https://bing-news-search1.p.rapidapi.com/news', {
+  const dataFetched = await fetch('https://bing-news-search1.p.rapidapi.com/news', {
     method: 'GET', // or 'PUT'
     headers: {
       'X-BingApis-SDK': 'true',
@@ -74,7 +74,7 @@ app.post('/category', async (req,res) => {
     .catch((error) => {
       console.error('Error:', error);
     });
-    res.send({nothing: "nope"})
+    res.send({nothing: dataFetched})
 })
 //********************************** */
 
