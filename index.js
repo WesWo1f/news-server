@@ -67,7 +67,7 @@ app.post('/category', async (req,res) => {
   })
   .then((response) => response.json())
   .then((data) => console.log(data))
-    
+    res.send(data)
   
     .catch((error) => {
       console.error('Error:', error);
@@ -84,30 +84,30 @@ app.post('/category', async (req,res) => {
 
 
 
-app.get('/', async (req,res) => {
+// app.get('/', async (req,res) => {
 
-  const options = {
-    method: 'GET',
-    url: 'https://bing-news-search1.p.rapidapi.com/news',
-    params: {safeSearch: 'Off', textFormat: 'Raw'},
-    headers: {
-      'X-BingApis-SDK': 'true',
-      'X-RapidAPI-Key': process.env.THE_KEY,
-      'X-RapidAPI-Host': process.env.THE_HOST
-    }
-  };
-  axios.request(options).then(function (response) {
-    res.json({name: "no error", theNews: response.data})
-    //console.log(response.data);
-    //console.log(response.data);
-    //res.json({ name:'wes', dataStuff: response.data})
-  }).catch(function (error) {
-    //console.error(error);
-    res.json({ name:'error', })
-  });
+//   const options = {
+//     method: 'GET',
+//     url: 'https://bing-news-search1.p.rapidapi.com/news',
+//     params: {safeSearch: 'Off', textFormat: 'Raw'},
+//     headers: {
+//       'X-BingApis-SDK': 'true',
+//       'X-RapidAPI-Key': process.env.THE_KEY,
+//       'X-RapidAPI-Host': process.env.THE_HOST
+//     }
+//   };
+//   axios.request(options).then(function (response) {
+//     res.json({name: "no error", theNews: response.data})
+//     //console.log(response.data);
+//     //console.log(response.data);
+//     //res.json({ name:'wes', dataStuff: response.data})
+//   }).catch(function (error) {
+//     //console.error(error);
+//     res.json({ name:'error', })
+//   });
 
 
-});
+// });
 
 
 
@@ -146,9 +146,6 @@ app.get('/', async (req,res) => {
 //     console.error(error);
 //     res.json({ name:'wes',})
 //   });
-
-
-
 // });
 
 
