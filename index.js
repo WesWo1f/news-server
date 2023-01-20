@@ -54,26 +54,26 @@ app.use(bodyParser.json());
 
 
 
-app.post('/category', async (req,res) => {
-    const options = {
-      method: 'GET',
-      url: 'https://bing-news-search1.p.rapidapi.com/news',
-      params: {safeSearch: 'Off', textFormat: 'Raw'},
-      headers: {
-        'X-BingApis-SDK': 'true',
-        'X-RapidAPI-Key': process.env.THE_KEY,
-        'X-RapidAPI-Host': process.env.THE_HOST
-      }
-    };
+// app.post('/category', async (req,res) => {
+//     const options = {
+//       method: 'GET',
+//       url: 'https://bing-news-search1.p.rapidapi.com/news',
+//       params: {safeSearch: 'Off', textFormat: 'Raw'},
+//       headers: {
+//         'X-BingApis-SDK': 'true',
+//         'X-RapidAPI-Key': process.env.THE_KEY,
+//         'X-RapidAPI-Host': process.env.THE_HOST
+//       }
+//     };
 
-    axios.request(options).then(function (response) {
-      res.json({name: "wes", theNews: response.data})
-    	console.log(response.data);
-    }).catch(function (error) {
-    	console.error(error);
-    });
-    res.json({name: "wes", theNews: response.data})
-})
+//     axios.request(options).then(function (response) {
+//       res.json({name: "wes", theNews: response.data})
+//     	console.log(response.data);
+//     }).catch(function (error) {
+//     	console.error(error);
+//     });
+//     res.json({name: "wes"})
+// })
 
 
 
