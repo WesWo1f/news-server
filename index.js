@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 app.use(express.json())
 app.use(cors())
 app.use(bodyParser.json());
-
+const fetch = require('node-fetch');
 // app.use(cors({
 //     origin: 'https://www.section.io'
 // }));
@@ -54,25 +54,24 @@ app.use(bodyParser.json());
 // })
 
 //*********************************** */
-app.post('/category', async (req,res) => {
+app.post('/category', async (request,response) => {
+
+  const url = 'https://bing-news-search1.p.rapidapi.com/news/trendingtopics?textFormat=Raw&safeSearch=Off';
 
   const options = {
     method: 'GET',
-    url: 'https://bing-news-search1.p.rapidapi.com/news',
-    params: {safeSearch: 'Off', textFormat: 'Raw'},
     headers: {
       'X-BingApis-SDK': 'true',
-      'X-RapidAPI-Key':   process.env.THE_KEY,
-      'X-RapidAPI-Host':  process.env.THE_HOST
+      'X-RapidAPI-Key':  process.env.THE_KEY,
+      'X-RapidAPI-Host': process.env.THE_HOST
     }
   };
   
-  axios.request(options).then(function (response) {
-    console.log(response.data);
-  }).catch(function (error) {
-    console.error(error);
-  });
+  fetch(url, options)
+    .then(res => res.json())
+    .then(json => console.log(json))
 
+    .catch(err => console.error('error:' + err));
 
 
 
