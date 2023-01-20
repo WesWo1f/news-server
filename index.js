@@ -67,11 +67,12 @@ app.post('/category', async (req,res) => {
     };
 
     axios.request(options).then(function (response) {
-      res.send(response.data)
+      res.json({name: "wes", theNews: response.data})
     	console.log(response.data);
     }).catch(function (error) {
     	console.error(error);
     });
+    res.json({name: "wes", theNews: response.data})
 })
 
 
