@@ -55,6 +55,41 @@ app.use(bodyParser.json());
 
 //*********************************** */
 app.post('/category', async (req,res) => {
+
+        async function getapi() {
+
+          // Storing response
+          const responseTWO = await fetch('https://bing-news-search1.p.rapidapi.com/news',  {
+            method: 'GET', // or 'PUT'
+            headers: {
+              'X-BingApis-SDK': 'true',
+              'X-RapidAPI-Key': process.env.THE_KEY,
+              'X-RapidAPI-Host': process.env.THE_HOST
+            },
+          })
+          // Storing data in form of JSON
+          var data = await responseTWO.json();
+          console.log(data);
+          res.send(data)
+     
+      }
+      // Calling that async function
+      getapi();
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ////////////////////////////
+  /*
   const data = { username: 'example' };
   console.log("this ran")
   const dataFetched = await fetch('https://bing-news-search1.p.rapidapi.com/news',  {
@@ -65,6 +100,7 @@ app.post('/category', async (req,res) => {
       'X-RapidAPI-Host': process.env.THE_HOST
     },
   })
+  
   res.send({ 'dataFetched':dataFetched})
   //.then((response) => response.json())
   //.then((data) => {
@@ -76,8 +112,15 @@ app.post('/category', async (req,res) => {
       console.error('Error:', error);
     });
     //res.send({nothing: dataFetched})
+    */
 })
 //********************************** */
+
+
+
+
+
+
 
 
 
