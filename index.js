@@ -10,7 +10,6 @@ const bodyParser = require('body-parser');
 app.use(express.json())
 app.use(cors())
 app.use(bodyParser.json());
-const fetch = require('node-fetch');
 // app.use(cors({
 //     origin: 'https://www.section.io'
 // }));
