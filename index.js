@@ -15,10 +15,10 @@ app.use(bodyParser.json());
 // }));
 
 
-// app.post('/category', async (req,res) =>  {
-//   console.log(req.body)
-//   res.send({name:'wes', thisIsBody: req.body} )
-//  })
+app.post('/category', async (req,res) =>  {
+  console.log(req.body)
+  res.send({name:'wes', thisIsBody: req.body} )
+ })
 
 // app.post('/category', async (req,res) => {
 //   console.log(req.body)
@@ -53,7 +53,7 @@ app.use(bodyParser.json());
 // })
 
 //*********************************** */
-app.post('/category', async (request,response) => {
+// app.post('/category', async (request,response) => {
 
 
 
@@ -61,30 +61,30 @@ app.post('/category', async (request,response) => {
 
 
 
-  ////////////////////////////
-  const data = { username: 'example' };
-  console.log("this ran")
-  const dataFetched = await fetch('https://bing-news-search1.p.rapidapi.com/news',  {
-    method: 'GET', // or 'PUT'
-    headers: {
-      'X-BingApis-SDK': 'true',
-      'X-RapidAPI-Key':  process.env.THE_KEY,
-      'X-RapidAPI-Host': process.env.THE_HOST
-    },
-  })
+//   ////////////////////////////
+//   const data = { username: 'example' };
+//   console.log("this ran")
+//   const dataFetched = await fetch('https://bing-news-search1.p.rapidapi.com/news',  {
+//     method: 'GET', // or 'PUT'
+//     headers: {
+//       'X-BingApis-SDK': 'true',
+//       'X-RapidAPI-Key':  process.env.THE_KEY,
+//       'X-RapidAPI-Host': process.env.THE_HOST
+//     },
+//   })
   
-  res.send({ 'dataFetched':dataFetched})
-  .then((response) => response.json())
-  .then((data) => {
-    console.log('Success:', data);
-    res.send({nothing: data})
- })
+//   res.send({ 'dataFetched':dataFetched})
+//   .then((response) => response.json())
+//   .then((data) => {
+//     console.log('Success:', data);
+//     res.send({nothing: data})
+//  })
   
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-    //res.send({nothing: dataFetched})
-})
+//     .catch((error) => {
+//       console.error('Error:', error);
+//     });
+//     //res.send({nothing: dataFetched})
+// })
 //********************************** */
 
 
@@ -100,27 +100,27 @@ app.post('/category', async (request,response) => {
 
 
 
- app.get('/', async (req,res) => {
-   const options = {
-     method: 'GET',
-     url: 'https://bing-news-search1.p.rapidapi.com/news',
-     params: {safeSearch: 'Off', textFormat: 'Raw'},
-     headers: {
-       'X-BingApis-SDK': 'true',
-       'X-RapidAPI-Key': process.env.THE_KEY,
-       'X-RapidAPI-Host': process.env.THE_HOST
-     }
-   };
-   axios.request(options).then(function (response) {
-     res.json({name: "no error", theNews: response.data})
-     //console.log(response.data);
-     //console.log(response.data);
-     //res.json({ name:'wes', dataStuff: response.data})
-   }).catch(function (error) {
-     //console.error(error);
-     res.json({ name:'error', })
-   });
- });
+//  app.get('/', async (req,res) => {
+//    const options = {
+//      method: 'GET',
+//      url: 'https://bing-news-search1.p.rapidapi.com/news',
+//      params: {safeSearch: 'Off', textFormat: 'Raw'},
+//      headers: {
+//        'X-BingApis-SDK': 'true',
+//        'X-RapidAPI-Key': process.env.THE_KEY,
+//        'X-RapidAPI-Host': process.env.THE_HOST
+//      }
+//    };
+//    axios.request(options).then(function (response) {
+//      res.json({name: "no error", theNews: response.data})
+//      //console.log(response.data);
+//      //console.log(response.data);
+//      //res.json({ name:'wes', dataStuff: response.data})
+//    }).catch(function (error) {
+//      //console.error(error);
+//      res.json({ name:'error', })
+//    });
+//  });
 
 
 
