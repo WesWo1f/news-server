@@ -56,25 +56,22 @@ app.use(bodyParser.json());
 //*********************************** */
 app.post('/category', async (req,res) => {
 
-        async function getapi() {
-
-          // Storing response
-          const responseTWO = await fetch('https://bing-news-search1.p.rapidapi.com/news',  {
-            method: 'GET', // or 'PUT'
-            headers: {
-              'X-BingApis-SDK': 'true',
-              'X-RapidAPI-Key': process.env.THE_KEY,
-              'X-RapidAPI-Host': process.env.THE_HOST
-            },
-          })
-          // Storing data in form of JSON
-          var data = await responseTWO.json();
-          console.log(data);
-          res.send(data)
-     
-      }
-      // Calling that async function
-      getapi();
+  const options = {
+    method: 'GET',
+    url: 'https://bing-news-search1.p.rapidapi.com/news',
+    params: {safeSearch: 'Off', textFormat: 'Raw'},
+    headers: {
+      'X-BingApis-SDK': 'true',
+      'X-RapidAPI-Key':   process.env.THE_KEY,
+      'X-RapidAPI-Host':  process.env.THE_HOST
+    }
+  };
+  
+  axios.request(options).then(function (response) {
+    console.log(response.data);
+  }).catch(function (error) {
+    console.error(error);
+  });
 
 
 
@@ -96,7 +93,7 @@ app.post('/category', async (req,res) => {
     method: 'GET', // or 'PUT'
     headers: {
       'X-BingApis-SDK': 'true',
-      'X-RapidAPI-Key': process.env.THE_KEY,
+      'X-RapidAPI-Key':  process.env.THE_KEY,
       'X-RapidAPI-Host': process.env.THE_HOST
     },
   })
