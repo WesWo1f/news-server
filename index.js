@@ -15,10 +15,10 @@ app.use(bodyParser.json());
 // }));
 
 
-app.post('/category', async (req,res) =>  {
-  console.log(req.body)
-  res.send({name:'wes', thisIsBody: req.body} )
- })
+// app.post('/category', async (req,res) =>  {
+//   console.log(req.body)
+//   res.send({name:'wes', thisIsBody: req.body} )
+//  })
 
 // app.post('/category', async (req,res) => {
 //   console.log(req.body)
@@ -51,6 +51,31 @@ app.post('/category', async (req,res) =>  {
 //   	console.error(error);
 //   });
 // })
+
+
+
+app.post('/category', async (req,res) => {
+    const options = {
+      method: 'GET',
+      url: 'https://bing-news-search1.p.rapidapi.com/news',
+      params: {safeSearch: 'Off', textFormat: 'Raw'},
+      headers: {
+        'X-BingApis-SDK': 'true',
+        'X-RapidAPI-Key': process.env.THE_KEY,
+        'X-RapidAPI-Host': process.env.THE_HOST
+      }
+    };
+
+    axios.request(options).then(function (response) {
+      res.send(response.data)
+    	console.log(response.data);
+    }).catch(function (error) {
+    	console.error(error);
+    });
+})
+
+
+
 
 //*********************************** */
 // app.post('/category', async (request,response) => {
