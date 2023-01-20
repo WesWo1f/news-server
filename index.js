@@ -59,23 +59,23 @@ app.post('/category', async (req,res) => {
   console.log("this ran")
   const dataFetched = await fetch('https://bing-news-search1.p.rapidapi.com/news',  {
     method: 'GET', // or 'PUT'
-    mode: 'no-cors',
     headers: {
       'X-BingApis-SDK': 'true',
       'X-RapidAPI-Key': process.env.THE_KEY,
       'X-RapidAPI-Host': process.env.THE_HOST
     },
   })
-  .then((response) => response.json())
-  .then((data) => {
-    console.log('Success:', data);
-    res.send({nothing: data})
+  res.send({ 'dataFetched':dataFetched})
+  //.then((response) => response.json())
+  //.then((data) => {
+    //console.log('Success:', data);
+    //res.send({nothing: data})
   })
   
     .catch((error) => {
       console.error('Error:', error);
     });
-    res.send({nothing: dataFetched})
+    //res.send({nothing: dataFetched})
 })
 //********************************** */
 
