@@ -55,28 +55,6 @@ app.use(bodyParser.json());
 //*********************************** */
 app.post('/category', async (request,response) => {
 
-  const url = 'https://bing-news-search1.p.rapidapi.com/news/trendingtopics?textFormat=Raw&safeSearch=Off';
-
-  const options = {
-    method: 'GET',
-    headers: {
-      'X-BingApis-SDK': 'true',
-      'X-RapidAPI-Key':  process.env.THE_KEY,
-      'X-RapidAPI-Host': process.env.THE_HOST
-    }
-  };
-  
-  fetch(url, options)
-    .then(res => res.json())
-    .then(json => console.log(json))
-
-    .catch(err => console.error('error:' + err));
-
-
-
-
-
-
 
 
 
@@ -84,7 +62,6 @@ app.post('/category', async (request,response) => {
 
 
   ////////////////////////////
-  /*
   const data = { username: 'example' };
   console.log("this ran")
   const dataFetched = await fetch('https://bing-news-search1.p.rapidapi.com/news',  {
@@ -107,7 +84,6 @@ app.post('/category', async (request,response) => {
       console.error('Error:', error);
     });
     //res.send({nothing: dataFetched})
-    */
 })
 //********************************** */
 
