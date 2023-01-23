@@ -20,6 +20,18 @@ app.use(bodyParser.json());
 //   res.send({name:'wes', thisIsBody: req.body} )
 //  })
 
+ app.post('/category', async (req,res) => {
+  console.log(req.body)
+  const searchRequest ='wolf'
+  const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/all?api_token=${process.env.API_KEY}&search=${searchRequest}`
+  fetch(theFetchRequestURL)
+  .then((response) => response.json())
+  .then((result) => {
+    res.send({fetchResult: result} )
+    console.log('Success:', result);
+  })
+})
+
 // app.post('/category', async (req,res) => {
 //   console.log(req.body)
 //   fetch('https://inshorts.deta.dev/news?category=automobile')
