@@ -36,17 +36,17 @@ app.use(bodyParser.json());
 
  app.post('/category', async (req,res) => {
   let categoryReqest = JSON.stringify(req.body)
+  console.log(categoryReqest)
   if (Object.keys(req.body).length === 0) {
     res.status(400).send({ message: "Content cannot be empty" });
     return;
   } 
   else if (categoryReqest === 'trending') {
-    const searchRequest = req.body
     const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&locale=us&limit=10`
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
-      res.send({thisIsBody: req.body,fetchResult: result} )
+      res.send({categoryReqest:categoryReqest, thisIsBody: req.body,fetchResult: result} )
       console.log('Success:', result);
     })
   } 
