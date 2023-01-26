@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 
  app.post('/category', async (req,res) => {
   let categoryReqest = JSON.stringify(req.body)
-  console.log(JSON.stringify(categoryReqest))
+  console.log('this is categoryReqest '+categoryReqest)
   if (Object.keys(req.body).length === 0) {
     res.status(400).send({ message: "Content cannot be empty" });
     return;
@@ -51,6 +51,7 @@ app.use(bodyParser.json());
     })
   } 
   else{
+
     const searchRequest = req.body
     const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/all?api_token=${process.env.API_KEY}&search=${searchRequest}`
     fetch(theFetchRequestURL)
