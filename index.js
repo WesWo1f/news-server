@@ -45,7 +45,7 @@ app.use(bodyParser.json());
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
-      res.send({fetchResult: result} )
+      res.send({thisIsBody: req.body,fetchResult: result} )
       console.log('Success:', result);
     })
   } 
@@ -55,7 +55,7 @@ app.use(bodyParser.json());
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
-      res.send({fetchResult: result} )
+      res.send({thisIsBody: req.body, fetchResult: result} )
       console.log('Success:', result);
     })
   }
