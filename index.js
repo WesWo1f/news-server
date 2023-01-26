@@ -47,7 +47,7 @@ app.use(bodyParser.json());
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
-      res.send({categoryReqest:categoryReqest, thisIsBody: req.body,fetchResult: result} )
+      res.send({categoryReqest: categoryReqest.category, thisIsBody: req.body,fetchResult: result} )
       console.log('Success:', result);
     })
   } 
