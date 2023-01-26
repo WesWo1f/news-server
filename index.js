@@ -13,16 +13,16 @@ app.use(bodyParser.json());
 
 
 
-app.post('/category', async (req,res) =>  {
-  console.log(req.body)
-  if (Object.keys(req.body).length === 0) {
-    res.status(400).send({ message: "Content cannot be empty" });
-    return;
-  } 
-  else{
-    res.send({thisIsBody: req.body})
-  }
- })
+// app.post('/category', async (req,res) =>  {
+//   console.log(req.body)
+//   if (Object.keys(req.body).length === 0) {
+//     res.status(400).send({ message: "Content cannot be empty" });
+//     return;
+//   } 
+//   else{
+//     res.send({thisIsBody: req.body})
+//   }
+//  })
 
 //**********NOTES********************
 //  &search=
@@ -34,16 +34,25 @@ app.post('/category', async (req,res) =>  {
 
 
 
-//  app.post('/category', async (req,res) => {
-//   const searchRequest = req.body
-//   const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/all?api_token=${process.env.API_KEY}&search=${searchRequest}`
-//   fetch(theFetchRequestURL)
-//   .then((response) => response.json())
-//   .then((result) => {
-//     res.send({fetchResult: result} )
-//     console.log('Success:', result);
-//   })
-// })
+ app.post('/category', async (req,res) => {
+  if (Object.keys(req.body).length === 0) {
+    res.status(400).send({ message: "Content cannot be empty" });
+    return;
+  } 
+  else{
+    const searchRequest = req.body
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/all?api_token=${process.env.API_KEY}&search=${searchRequest}`
+    fetch(theFetchRequestURL)
+    .then((response) => response.json())
+    .then((result) => {
+      res.send({fetchResult: result} )
+      console.log('Success:', result);
+    })
+  }
+
+
+ 
+})
 
 
 
