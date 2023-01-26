@@ -42,7 +42,7 @@ app.use(bodyParser.json());
     res.status(400).send({ message: "Content cannot be empty" });
     return;
   } 
-  else if (categoryReqest === 'trending') {
+  else if (categoryReqest.category === 'trending') {
     const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&locale=us&limit=10`
     fetch(theFetchRequestURL)
     .then((response) => response.json())
