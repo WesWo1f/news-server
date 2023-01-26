@@ -35,8 +35,8 @@ app.use(bodyParser.json());
 
 
  app.post('/category', async (req,res) => {
-  let categoryReqest = JSON.parse(req.body);
-  //let categoryReqest = JSON.stringify(req.body)
+  //let categoryReqest = JSON.parse(req.body);
+  let categoryReqest = JSON.stringify(req.body)
   console.log('this is categoryReqest '+categoryReqest.category)
   if (Object.keys(req.body).length === 0) {
     res.status(400).send({ message: "Content cannot be empty" });
@@ -58,7 +58,7 @@ app.use(bodyParser.json());
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
-      res.send({thisIsBody: req.body, fetchResult: result} )
+      res.send({categoryReqest:categoryReqest,thisIsBody: req.body, fetchResult: result} )
       console.log('Success:', result);
     })
   }
