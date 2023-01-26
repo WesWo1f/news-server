@@ -10,14 +10,18 @@ const bodyParser = require('body-parser');
 app.use(express.json())
 app.use(cors())
 app.use(bodyParser.json());
-// app.use(cors({
-//     origin: 'https://www.section.io'
-// }));
+
 
 
 app.post('/category', async (req,res) =>  {
   console.log(req.body)
-  res.send({name:'wes', thisIsBody: req.body} )
+  if (Object.keys(req.body).length === 0) {
+    res.status(400).send({ message: "Content cannot be empty" });
+    return;
+  } 
+  else{
+    res.send({thisIsBody: req.body})
+  }
  })
 
 //**********NOTES********************
@@ -31,8 +35,7 @@ app.post('/category', async (req,res) =>  {
 
 
 //  app.post('/category', async (req,res) => {
-//   console.log(req.body)
-//   const searchRequest ='wolf'
+//   const searchRequest = req.body
 //   const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/all?api_token=${process.env.API_KEY}&search=${searchRequest}`
 //   fetch(theFetchRequestURL)
 //   .then((response) => response.json())
