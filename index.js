@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 
  app.post('/category', async (req,res) => {
   let categoryReqest = JSON.stringify(req.body)
-  console.log(categoryReqest)
+  console.log(JSON.stringify(categoryReqest))
   if (Object.keys(req.body).length === 0) {
     res.status(400).send({ message: "Content cannot be empty" });
     return;
