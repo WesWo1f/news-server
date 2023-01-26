@@ -39,6 +39,16 @@ app.use(bodyParser.json());
     res.status(400).send({ message: "Content cannot be empty" });
     return;
   } 
+  else if (req.body === 'trending') {
+    const searchRequest = req.body
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&locale=us&limit=10`
+    fetch(theFetchRequestURL)
+    .then((response) => response.json())
+    .then((result) => {
+      res.send({fetchResult: result} )
+      console.log('Success:', result);
+    })
+  } 
   else{
     const searchRequest = req.body
     const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/all?api_token=${process.env.API_KEY}&search=${searchRequest}`
