@@ -35,7 +35,6 @@ app.use(bodyParser.json());
 
 
  app.post('/category', async (req,res) => {
-  //let categoryReqest = JSON.parse(req.body);
   let categoryReqest = req.body
   console.log('this is categoryReqest '+categoryReqest.category)
   if (Object.keys(req.body).length === 0) {
@@ -43,7 +42,7 @@ app.use(bodyParser.json());
     return;
   } 
   else if (categoryReqest.category === 'trending') {
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&locale=us&limit=10`
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&locale=us&limit=4`
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
@@ -52,9 +51,7 @@ app.use(bodyParser.json());
     })
   } 
   else{
-
-    const searchRequest = req.body
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/all?api_token=${process.env.API_KEY}&search=${searchRequest}`
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/all?api_token=${process.env.API_KEY}&search=${categoryReqest.category}`
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
@@ -62,9 +59,6 @@ app.use(bodyParser.json());
       console.log('Success:', result);
     })
   }
-
-
- 
 })
 
 
