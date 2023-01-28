@@ -51,7 +51,7 @@ app.use(bodyParser.json());
     })
   } 
   else{
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/all?api_token=${process.env.API_KEY}&search=${categoryReqest.category}`
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/all?api_token=${process.env.API_KEY}&categories=${categoryReqest.category}`
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
