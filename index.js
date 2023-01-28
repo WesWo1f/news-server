@@ -42,7 +42,7 @@ app.use(bodyParser.json());
     return;
   } 
   else if (categoryReqest.category === 'trending') {
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&locale=us&limit=4`
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&language=en&locale=us&limit=4`
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
@@ -51,7 +51,7 @@ app.use(bodyParser.json());
     })
   } 
   else{
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/all?api_token=${process.env.API_KEY}&categories=${categoryReqest.category}`
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/all?api_token=${process.env.API_KEY}&categories=${categoryReqest.category}&language=en`
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
