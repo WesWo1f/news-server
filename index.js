@@ -66,7 +66,7 @@ app.get('/crawldata', async (req,res) => {
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
-      res.send({categoryReqest: categoryReqest.category, thisIsBody: req.body, fetchResult: result} )
+      res.send({fetchResult: result} )
       //console.log('Success:', result);
     })
 })
