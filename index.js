@@ -42,7 +42,7 @@ app.use(bodyParser.json());
     return;
   } 
   else if (categoryReqest.category === 'trending') {
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&language=en&locale=us&limit=4`
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&language=en&locale=us`
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
@@ -59,6 +59,25 @@ app.use(bodyParser.json());
       //console.log('Success:', result);
     })
   }
+})
+
+app.post('/crawlData', async (req,res) => {
+  let categoryReqest = req.body
+  console.log('this is categoryReqest '+categoryReqest.category)
+  if (Object.keys(req.body).length === 0) {
+    res.status(400).send({ message: "Content cannot be empty" });
+    return;
+  } 
+  else {
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&language=en&locale=us`
+    fetch(theFetchRequestURL)
+    .then((response) => response.json())
+    .then((result) => {
+      res.send({categoryReqest: categoryReqest.category, thisIsBody: req.body, fetchResult: result} )
+      //console.log('Success:', result);
+    })
+  } 
+
 })
 
 
