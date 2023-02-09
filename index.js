@@ -33,7 +33,7 @@ app.post('/category', async (req,res) => {
     })
   } 
   else{
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/all?api_token=${process.env.API_KEY}&categories=${categoryReqest.category}&language=en&locale=us&page=${pageNumber}`
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/all?api_token=${process.env.API_KEY}&categories=${category}&language=en&locale=us&page=${pageNumber}`
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
