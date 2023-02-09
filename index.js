@@ -44,7 +44,7 @@ app.post('/crawldata', async (req,res) => {
     return;
   } 
   else {
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.THE_KEY}&language=en&locale=us&page=${pageNumber}`
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&language=en&locale=us&page=${pageNumber}`
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
