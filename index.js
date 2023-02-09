@@ -15,11 +15,7 @@ app.use(bodyParser.json());
 app.post('/category', async (req,res) => {
   let category = req.body.category
   let pageNumber = req.body.page
-  try {
-    console.log(category)
-    console.log(pageNumber)
-  } catch (error) {
-  }
+
   if (Object.keys(req.body).length === 0) {
     res.status(400).send({ message: "Content cannot be empty" });
     return;
@@ -43,13 +39,7 @@ app.post('/category', async (req,res) => {
 })
 
 app.post('/crawldata', async (req,res) => {
-  let category = req.body.category
   let pageNumber = req.body.page
-  try {
-    console.log(category)
-    console.log(pageNumber)
-  } catch (error) {
-  }
   if (Object.keys(req.body).length === 0) {
     res.status(400).send({ message: "Content cannot be empty" });
     return;
