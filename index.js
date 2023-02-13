@@ -55,7 +55,7 @@ app.post('/crawldata', async (req,res) => {
   }
 })
 
-app.post('/similardata',async (req,res) => {
+app.post('/similarnewsdata',async (req,res) => {
   let newsUuid = req.body.page
   let date = new Date();
   date.setDate(date.getDate() - 14);
@@ -66,7 +66,7 @@ app.post('/similardata',async (req,res) => {
     return;
   } 
   else {
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/similar/${newsUuid}?api_token=${process.env.API_KEY}&language=en&locale=us&limit=3&published_on=${twoWeeksAgo}`
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/similar/${newsUuid}?api_token=${process.env.API_KEY}&language=en&locale=us&limit=3&published_after=${twoWeeksAgo}`
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
