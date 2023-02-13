@@ -56,7 +56,7 @@ app.post('/crawldata', async (req,res) => {
 })
 
 app.post('/similarnewsdata',async (req,res) => {
-  let newsUuid = req.body.page
+  let newsUuid = req.body.newsUuid
   let date = new Date();
   date.setDate(date.getDate() - 14);
   let twoWeeksAgo = date.toISOString().split('T')[0];
