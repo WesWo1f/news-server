@@ -33,6 +33,7 @@ app.post('/category', async (req,res) => {
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
+      //result = findDuplicateTitles(result)
       res.send({fetchResult: result} )
     })
   }
@@ -55,36 +56,51 @@ app.post('/crawldata', async (req,res) => {
   }
 })
 
-app.post('/similarnewsdata',async (req,res) => {
-  let newsUuid = req.body.newsUuid
+app.post('/similarnewsdata', async (req, res) => {
+  let newsUuid = req.body.newsUuid;
   let date = new Date();
   date.setDate(date.getDate() - 14);
   let twoWeeksAgo = date.toISOString().split('T')[0];
 
   if (Object.keys(req.body).length === 0) {
-    res.status(400).send({ message: "Content cannot be empty" });
-    return;
-  } 
-  else {
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/similar/${newsUuid}?api_token=${process.env.API_KEY}&language=en&locale=us&limit=3&published_after=${twoWeeksAgo}`
-    fetch(theFetchRequestURL)
-    .then((response) => response.json())
-    .then((result) => {
-      res.send({fetchResult: result} )
-      //console.log('Success:', result);
-    })
+    return res.status(400).send({ message: "Content cannot be empty" });
   }
 
+  const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/similar/${newsUuid}?api_token=${process.env.API_KEY}&language=en&locale=us&limit=15&published_after=${twoWeeksAgo}`;
+  const response = await fetch(theFetchRequestURL);
+  const result = await response.json();
+  const duplicatedTitlesRemoved = await findDuplicateTitles(result);
+  const filteredData = await numberOfArticlesToReturn(duplicatedTitlesRemoved);
 
-})
+  return res.send({ fetchResult: filteredData });
+});
 
+async function findDuplicateTitles(obj){
+  // Count the number of title occurrences
+  const titleCounts = {};
+  obj.data.forEach(x => { titleCounts[x.title] = (titleCounts[x.title] || 0) + 1;});
+  
+  // Get an array of duplicated titles
+  const duplicatedTitles = Object.entries(titleCounts)
+      .filter(entry => entry[1] >= 2)
+      .map(entry => entry[0]);
+  
+  // Remove duplicated titles from the object
+  obj = obj.data.filter(x => !duplicatedTitles.includes(x.title));
+  // return the updated object
+  return obj;
+}
 
+async function numberOfArticlesToReturn(obj){
+  try {
+    obj = obj.slice(0, 3);
+  } catch (error) {
+    //console.log(error)
+  }
+  return obj
+}
 
 
 app.listen(port,() => {
   console.log(`Server is running on port ${port}`)
 })
-//app.listen(8000, () => console.log(`Server is running on port ${PORT}`))
-
-
-
