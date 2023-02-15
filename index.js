@@ -21,7 +21,7 @@ app.post('/category', async (req,res) => {
     return;
   } 
   else if (category === 'trending') {
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&language=en&locale=us&page=${pageNumber}`
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&language=en&locale=us&page=${pageNumber}&exclude_domains=news.google.com`
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
@@ -29,7 +29,7 @@ app.post('/category', async (req,res) => {
     })
   } 
   else{
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&categories=${category}&language=en&locale=us&page=${pageNumber}`
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&categories=${category}&language=en&locale=us&page=${pageNumber}&exclude_domains=news.google.com`
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
@@ -46,7 +46,7 @@ app.post('/crawldata', async (req,res) => {
     return;
   } 
   else {
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&language=en&locale=us&page=${pageNumber}`
+    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&language=en&locale=us&page=${pageNumber}&exclude_domains=news.google.com`
     fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
@@ -66,7 +66,7 @@ app.post('/similarnewsdata', async (req, res) => {
     return res.status(400).send({ message: "Content cannot be empty" });
   }
 
-  const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/similar/${newsUuid}?api_token=${process.env.API_KEY}&language=en&locale=us&limit=15&published_after=${twoWeeksAgo}`;
+  const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/similar/${newsUuid}?api_token=${process.env.API_KEY}&language=en&locale=us&limit=25&published_after=${twoWeeksAgo}&exclude_domains=news.google.com`;
   const response = await fetch(theFetchRequestURL);
   const result = await response.json();
   const duplicatedTitlesRemoved = await findDuplicateTitles(result);
