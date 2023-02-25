@@ -47,12 +47,26 @@ app.post('/crawldata', async (req,res) => {
   } 
   else {
     const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&language=en&locale=us&page=${pageNumber}&exclude_domains=news.google.com`
-    fetch(theFetchRequestURL)
+    const returnedData = await fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
-      res.send({fetchResult: result} )
-      //console.log('Success:', result);
+      return result
     })
+    res.send({fetchResult: await parsingCrawlData(returnedData)})
+  }
+  async function parsingCrawlData(obj) {
+    let data = [];
+    for (let index = 0; index < obj.data.length; index++) {
+      data.push({ // Add each crawlData object to the data array
+        title: obj.data[index].title,
+        url: obj.data[index].url,
+        source: obj.data[index].source
+      });
+    }
+    let crawlData = { // Create a crawlData object with a data property that contains the data array
+      data: data
+    };
+    return crawlData; 
   }
 })
 
@@ -99,6 +113,12 @@ async function numberOfArticlesToReturn(obj){
   }
   return obj
 }
+
+
+
+
+
+
 
 
 app.listen(port,() => {
