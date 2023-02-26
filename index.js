@@ -15,27 +15,22 @@ app.use(bodyParser.json());
 app.post('/category', async (req,res) => {
   let category = req.body.category
   let pageNumber = req.body.page
-
   if (Object.keys(req.body).length === 0) {
     res.status(400).send({ message: "Content cannot be empty" });
     return;
   } 
-  else if (category === 'trending') {
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&language=en&locale=us&page=${pageNumber}&exclude_domains=news.google.com`
-    fetch(theFetchRequestURL)
-    .then((response) => response.json())
-    .then((result) => {
-      res.send({fetchResult: result} )
-    })
-  } 
-  else{
+  else {
+    if(category === 'trending'){
+      category = 'general'
+    }
     const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&categories=${category}&language=en&locale=us&page=${pageNumber}&exclude_domains=news.google.com`
-    fetch(theFetchRequestURL)
+    let returnedData = await fetch(theFetchRequestURL)
     .then((response) => response.json())
     .then((result) => {
-      //result = findDuplicateTitles(result)
-      res.send({fetchResult: result} )
+      return result
     })
+    findDuplicateTitles(returnedData)
+    res.send({fetchResult: returnedData})
   }
 })
 
@@ -85,7 +80,6 @@ app.post('/similarnewsdata', async (req, res) => {
   const result = await response.json();
   const duplicatedTitlesRemoved = await findDuplicateTitles(result);
   const filteredData = await numberOfArticlesToReturn(duplicatedTitlesRemoved);
-
   return res.send({ fetchResult: filteredData });
 });
 
@@ -113,12 +107,6 @@ async function numberOfArticlesToReturn(obj){
   }
   return obj
 }
-
-
-
-
-
-
 
 
 app.listen(port,() => {
