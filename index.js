@@ -4,7 +4,6 @@ const express = require('express')
 const cors = require("cors")
 const axios = require("axios");
 require('dotenv').config()
-
 const app = express()
 const bodyParser = require('body-parser');
 app.use(express.json())
@@ -33,6 +32,60 @@ app.post('/category', async (req,res) => {
     res.send({fetchResult: returnedData})
   }
 })
+
+app.post('/test', async (req,res) => {
+  async function mainNewsCall(){
+  let category = 'general'
+  let pageNumber = 1
+  
+  const mainNewsRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&categories=${category}&language=en&locale=us&page=${pageNumber}&exclude_domains=news.google.com`
+  let returnedData = await fetch(mainNewsRequestURL)
+  .then((response) => response.json())
+  .then((result) => {
+    return result
+  })
+  return returnedData
+  }
+  const mainNewsData = await findDuplicateTitles(await mainNewsCall())
+  let similarNewsData = [] 
+
+  similarNewsData.push(await similarNewsCall(mainNewsData.data[0].uuid))
+  similarNewsData.push(await similarNewsCall(mainNewsData.data[1].uuid))
+  similarNewsData.push(await similarNewsCall(mainNewsData.data[2].uuid))
+  similarNewsData.push(await similarNewsCall(mainNewsData.data[3].uuid))
+  similarNewsData.push(await similarNewsCall(mainNewsData.data[4].uuid))
+  mainNewsData.data[0].similarNews = await similarNewsData[0]
+  mainNewsData.data[1].similarNews = await similarNewsData[1]
+  mainNewsData.data[2].similarNews = await similarNewsData[2]
+  mainNewsData.data[3].similarNews = await similarNewsData[3]
+  mainNewsData.data[4].similarNews = await similarNewsData[4]
+  
+  async function similarNewsCall(uuid){
+    if(uuid !== 'undefined' && uuid.length > 1){
+      console.log("we are in")
+      let date = new Date();
+      date.setDate(date.getDate() - 14);
+      let twoWeeksAgo = date.toISOString().split('T')[0];
+      const similarNewsRequestURL = `https://api.thenewsapi.com/v1/news/similar/${uuid}?api_token=${process.env.API_KEY}&language=en&locale=us&limit=25&published_after=${twoWeeksAgo}&exclude_domains=news.google.com`;
+      const similarNewsResponse = await fetch(similarNewsRequestURL);
+      const result = await similarNewsResponse.json();
+      const duplicatedTitlesRemoved = await findDuplicateTitles(result);
+      const filteredData = await numberOfArticlesToReturn(duplicatedTitlesRemoved);
+      return filteredData
+    }
+  }
+  res.send({fetchResult:  mainNewsData})
+})
+
+
+
+
+
+
+
+
+
+
 
 app.post('/crawldata', async (req,res) => {
   let pageNumber = req.body.page
@@ -96,8 +149,10 @@ async function findDuplicateTitles(obj){
   // Remove duplicated titles from the object
   obj = obj.data.filter(x => !duplicatedTitles.includes(x.title));
   // return the updated object
+
   return obj;
 }
+
 
 async function numberOfArticlesToReturn(obj){
   try {
