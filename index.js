@@ -11,34 +11,14 @@ app.use(cors())
 app.use(bodyParser.json());
 
 
-app.post('/category', async (req,res) => {
-  let category = req.body.category
-  let pageNumber = req.body.page
-  if (Object.keys(req.body).length === 0) {
-    res.status(400).send({ message: "Content cannot be empty" });
-    return;
-  } 
-  else {
-    if(category === 'trending'){
-      category = 'general'
-    }
-    const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&categories=${category}&language=en&locale=us&page=${pageNumber}&exclude_domains=news.google.com`
-    let returnedData = await fetch(theFetchRequestURL)
-    .then((response) => response.json())
-    .then((result) => {
-      return result
-    })
-    findDuplicateTitles(returnedData)
-    res.send({fetchResult: returnedData})
-  }
-})
 
 app.post('/test', async (req,res) => {
   async function mainNewsCall(){
-  let category = 'general'
+  
+  let category = req.body.category
   let pageNumber = 1
   
-  const mainNewsRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&categories=${category}&language=en&locale=us&page=${pageNumber}&exclude_domains=news.google.com`
+  const mainNewsRequestURL = `https://api.thenewsapi.com/v1/news/top?api_token=${process.env.API_KEY}&categories=${category}&language=en&locale=us&page=${pageNumber}&exclude_domains=news.google.com,npr.org`
   let returnedData = await fetch(mainNewsRequestURL)
   .then((response) => response.json())
   .then((result) => {
@@ -46,46 +26,79 @@ app.post('/test', async (req,res) => {
   })
   return returnedData
   }
-  const mainNewsData = await findDuplicateTitles(await mainNewsCall())
+  const mainNewsData = await removeTitleDuplicates(await mainNewsCall())
+  const uniqueObjTitle = removeDuplicates(mainNewsData, 'title');
+  //const uniqueObjSource = removeDuplicates(uniqueObjTitle, 'source');
+
   let similarNewsData = [] 
 
-  similarNewsData.push(await similarNewsCall(mainNewsData.data[0].uuid))
-  similarNewsData.push(await similarNewsCall(mainNewsData.data[1].uuid))
-  similarNewsData.push(await similarNewsCall(mainNewsData.data[2].uuid))
-  similarNewsData.push(await similarNewsCall(mainNewsData.data[3].uuid))
-  similarNewsData.push(await similarNewsCall(mainNewsData.data[4].uuid))
-  mainNewsData.data[0].similarNews = await similarNewsData[0]
-  mainNewsData.data[1].similarNews = await similarNewsData[1]
-  mainNewsData.data[2].similarNews = await similarNewsData[2]
-  mainNewsData.data[3].similarNews = await similarNewsData[3]
-  mainNewsData.data[4].similarNews = await similarNewsData[4]
-  
-  async function similarNewsCall(uuid){
-    if(uuid !== 'undefined' && uuid.length > 1){
-      console.log("we are in")
-      let date = new Date();
-      date.setDate(date.getDate() - 14);
-      let twoWeeksAgo = date.toISOString().split('T')[0];
-      const similarNewsRequestURL = `https://api.thenewsapi.com/v1/news/similar/${uuid}?api_token=${process.env.API_KEY}&language=en&locale=us&limit=25&published_after=${twoWeeksAgo}&exclude_domains=news.google.com`;
-      const similarNewsResponse = await fetch(similarNewsRequestURL);
-      const result = await similarNewsResponse.json();
-      const duplicatedTitlesRemoved = await findDuplicateTitles(result);
-      const filteredData = await numberOfArticlesToReturn(duplicatedTitlesRemoved);
-      return filteredData
+  for (let index = 0; index < 5; index++) {
+    try {
+      similarNewsData.push(await similarNewsCall(uniqueObjTitle[index].uuid))
+    } catch (error) {
+      console.log(error)
     }
   }
-  res.send({fetchResult:  mainNewsData})
+  for (let index = 0; index < 5; index++) {
+    try {
+      uniqueObjTitle[index].similarNews = await similarNewsData[index]
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  //This code filters the data to include only articles that have at least three similar news articles.
+  const shorterDataArray = shorteningDataArray(mainNewsData)
+  function shorteningDataArray(obj){
+    let newArray = obj.filter(element => {
+      try {
+        return element.similarNews.length >= 3
+      } catch (error) {
+        
+      }
+    })
+    return newArray
+  }
+  // this code removes unneeded elements from the data
+  const elementsRemoved = removingUnusedElements(shorterDataArray)
+  function removingUnusedElements(obj){
+    const newArray = obj.map(element => {
+      const {uuid, description, keywords, snippet, language, relevance_score, locale, similarNews, ...rest} = element;
+      
+      const newSimilarNews = [];
+      similarNews.forEach(({uuid, description, keywords, snippet, language, relevance_score, locale, image_url, categories, ...similarRest}) => {
+        newSimilarNews.push(similarRest);
+      });
+      
+      return {...rest, similarNews: newSimilarNews};
+    });
+    return newArray;
+  }
+
+  async function similarNewsCall(uuid){
+    if(uuid !== 'undefined' && uuid.length > 1){
+      const dateTwoWeeksAgo = getLastTwoWeeksDates();
+      const similarNewsRequestURL = `https://api.thenewsapi.com/v1/news/similar/${uuid}?api_token=${process.env.API_KEY}&language=en&locale=us&limit=25&published_after=${dateTwoWeeksAgo}&exclude_domains=news.google.com`;
+      
+      const similarNewsResponse = await fetch(similarNewsRequestURL);
+      const result = await similarNewsResponse.json();
+
+      const deduplicatedData = await removeTitleDuplicates(result);
+
+      const filteredData = await filterByNumberOfArticles(deduplicatedData, 3);
+      console.log(filteredData)
+      return filteredData;
+    }
+  }
+  res.send({fetchResult: await elementsRemoved})
 })
 
 
 
-
-
-
-
-
-
-
+function getLastTwoWeeksDates() {
+  const date = new Date();
+  date.setDate(date.getDate() - 14);
+  return date.toISOString().split('T')[0];
+}
 
 app.post('/crawldata', async (req,res) => {
   let pageNumber = req.body.page
@@ -118,25 +131,7 @@ app.post('/crawldata', async (req,res) => {
   }
 })
 
-app.post('/similarnewsdata', async (req, res) => {
-  let newsUuid = req.body.newsUuid;
-  let date = new Date();
-  date.setDate(date.getDate() - 14);
-  let twoWeeksAgo = date.toISOString().split('T')[0];
-
-  if (Object.keys(req.body).length === 0) {
-    return res.status(400).send({ message: "Content cannot be empty" });
-  }
-
-  const theFetchRequestURL = `https://api.thenewsapi.com/v1/news/similar/${newsUuid}?api_token=${process.env.API_KEY}&language=en&locale=us&limit=25&published_after=${twoWeeksAgo}&exclude_domains=news.google.com`;
-  const response = await fetch(theFetchRequestURL);
-  const result = await response.json();
-  const duplicatedTitlesRemoved = await findDuplicateTitles(result);
-  const filteredData = await numberOfArticlesToReturn(duplicatedTitlesRemoved);
-  return res.send({ fetchResult: filteredData });
-});
-
-async function findDuplicateTitles(obj){
+async function removeTitleDuplicates(obj){
   // Count the number of title occurrences
   const titleCounts = {};
   obj.data.forEach(x => { titleCounts[x.title] = (titleCounts[x.title] || 0) + 1;});
@@ -147,14 +142,27 @@ async function findDuplicateTitles(obj){
       .map(entry => entry[0]);
   
   // Remove duplicated titles from the object
-  obj = obj.data.filter(x => !duplicatedTitles.includes(x.title));
+  obj = obj.data.filter(x => !duplicatedTitles.includes(x.title));  //ORIGNAL WORKING 
   // return the updated object
 
-  return obj;
+  return obj; 
 }
 
 
-async function numberOfArticlesToReturn(obj){
+function removeDuplicates(obj, key) {
+  const propertyValues = Object.values(obj)
+  const seen = new Set();
+  return propertyValues.filter((item) => {
+    const value = item[key];
+    if (!seen.has(value)) {
+      seen.add(value);
+      return true;
+    }
+    return false;
+  });
+}
+
+async function filterByNumberOfArticles(obj){
   try {
     obj = obj.slice(0, 3);
   } catch (error) {
